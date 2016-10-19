@@ -1,0 +1,11 @@
+{
+  "name": "storybook-addon-smart-knobs",
+  "version": "0.1.0",
+  "description": "Automatically created knobs for storybook.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "MIT"
+}
