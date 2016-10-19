@@ -1,0 +1,7 @@
+{
+  extends: [ "taller/react" ],
+  globals: {
+    __DEBUG__: true,
+    location: true
+  }
+}
