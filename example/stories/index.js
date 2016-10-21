@@ -1,20 +1,14 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 import { storiesOf } from '@kadira/storybook'
-import { withKnobs } from '@kadira/storybook-addon-knobs'
 import { withSmartKnobs } from '../../src'
 
-const Button = ({ children, onClick }) => (
-  <button onClick={ onClick }>{ children }</button>
-)
+import SmartKnobedComponent from './SmartKnobedComponent'
 
-Button.propTypes = {
-  onClick: PropTypes.func,
-  children: PropTypes.string,
-}
-
-storiesOf('Example of Knobs', module)
+storiesOf('Example of smart Knobs', module)
   .addDecorator(withSmartKnobs)
-  .addDecorator(withKnobs)
-  .add('simple example', () => (
-    <Button>My button</Button>
+  .add('full example', () => (
+    <SmartKnobedComponent />
   ))
+
+
+  console.log(SmartKnobedComponent.__docgenInfo)

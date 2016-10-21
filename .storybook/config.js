@@ -5,6 +5,8 @@
 
 import { configure } from '@kadira/storybook'
 
+window.STORYBOOK_REACT_CLASSES = {}
+
 function loadStories () {
   require('../example/stories')
 }

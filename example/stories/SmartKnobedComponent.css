@@ -1,0 +1,24 @@
+.SmartKnobedComponent {
+  border: 1px solid #999;
+  color: #333;
+  font-family: monospace;
+  border-collapse:collapse;
+  font-size: 1.5em;
+  text-align: left;
+}
+
+.SmartKnobedComponent thead {
+  font-style: italic;
+  font-size: 0.85em;
+}
+
+.SmartKnobedComponent th {
+  background-color: #eee;
+}
+
+.SmartKnobedComponent th,
+.SmartKnobedComponent td {
+  border: 0.05em solid #999;
+  min-width: 1em;
+  padding: 0.4em;
+}

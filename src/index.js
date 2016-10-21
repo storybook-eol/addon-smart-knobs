@@ -1,6 +1,6 @@
 import { cloneElement } from 'react'
 import { action } from '@kadira/storybook'
-import { text, boolean, number, object, select } from '@kadira/storybook-addon-knobs'
+import { withKnobs, text, boolean, number, object, select } from '@kadira/storybook-addon-knobs'
 
 const knobResolvers = {}
 export const addKnobResolver = ({ name, resolver, weight = 0 }) => (knobResolvers[name] = { name, resolver, weight })
@@ -10,69 +10,75 @@ export const addKnobResolver = ({ name, resolver, weight = 0 }) => (knobResolver
  * --------------------------------
  */
 
-export const propTypeKnobResolver = (test, knob, ...args) =>
-  (name, validate, value, propTypes, defaultProps) => !validate({ 'prop': test }, 'prop')
-    ? knob(name, value, ...args) : undefined
+export const propTypeKnobResolver = (name, knob, ...args) =>
+  (propName, propType, value, propTypes, defaultProps) =>
+    propType.type.name === name ? knob(propName, value, ...args) : undefined
 
 /* eslint-disable no-multi-spaces */
 // Default simple PropType based knob map.
 const propTypeKnobsMap = [
-  { name: 'string', test: '',       knob: text },
-  { name: 'number', test: 0,        knob: number },
-  { name: 'bool',   test: true,     knob: boolean },
-  { name: 'func',   test: () => {}, knob: (name, value) => value || action(name) },
-  { name: 'object', test: {},       knob: object }
+  { name: 'string', knob: text },
+  { name: 'number', knob: number },
+  { name: 'bool',   knob: boolean },
+  { name: 'func',   knob: (name, value) => value || action(name) },
+  { name: 'object', knob: object },
+  { name: 'node', knob: text },
+  { name: 'element', knob: text },
 ]
 
-propTypeKnobsMap.forEach(({ name, test, knob, args = [] }) => addKnobResolver({
-  name,
-  resolver: propTypeKnobResolver(test, knob, ...args)
+propTypeKnobsMap.forEach(({ name, knob, args = [] }, weight) => addKnobResolver({
+  weight: weight * 10,
+  name: `PropTypes.${name}`,
+  resolver: propTypeKnobResolver(name, knob, ...args)
 }))
 
-// Defalt oneOf PropType knob resolver.
+// Register 'oneOf' PropType knob resolver.
 addKnobResolver({
-  name: 'oneOf',
-  resolver: (name, validate, value, propTypes, defaultProps) => {
-    const error = validate({ 'prop': '' }, 'prop')
-    const match = error ? /expected one of (\[.*\])/.exec(error.message) : null
+  name: 'PropTypes.oneOf',
+  resolver: (propName, propType, value, propTypes, defaultProps) => {
+    /* eslint-disable quotes */
+    if (propType.type.name === 'enum' && propType.type.value.length) {
+      try {
+        const options = propType.type.value
+        .map(value => value.value)
+        // Cleanup string quotes, if any.
+        .map(value => value[0] === "'" && value[value.length - 1] === "'"
+        ? '"' + value.replace(/'"'/g, '\\"').slice(1, value.length - 1) + '"' : value)
+        .map(JSON.parse)
+        .reduce((res, value) => ({ ...res, [value]: value }), {})
 
-    if (match && match[1]) {
-      const parsedOptions = JSON.parse(match[1])
-      const options = parsedOptions.reduce((res, value) => ({ ...res, [value]: value }), {})
-
-      return select(name, {
-        '': '--',
-        ...options
-      }, defaultProps[name])
+        return select(propName, { '': '--', ...options }, defaultProps[propName])
+      }
+      catch (e) { }
     }
   }
 })
 
 export const withSmartKnobs = (story, context) => {
-  const component = story()
-  const propTypes = component.type.propTypes
+  const component = story(context)
+  const { __docgenInfo: { props } = { props: { } } } = component.type
   const defaultProps = {
-    ...component.type.defaultProps,
+    ...(component.type.defaultProps || {}),
     ...component.props
   }
 
-  return cloneElement(component, resolvePropValues(propTypes, defaultProps))
+  return withKnobs(() => cloneElement(component, resolvePropValues(props, defaultProps)), context)
 }
 
 const resolvePropValues = (propTypes, defaultProps) => {
-  const propKeys = Object.keys(propTypes)
+  const propNames = Object.keys(propTypes)
   const resolvers = Object.keys(knobResolvers)
     .sort((a, b) => knobResolvers[a].weight < knobResolvers[b].weight)
     .map(name => knobResolvers[name].resolver)
 
-  return propKeys
-    .map(prop => resolvers.reduce(
+  return propNames
+    .map(propName => resolvers.reduce(
       (value, resolver) => value !== undefined ? value
-        : resolver(prop, propTypes[prop], defaultProps[prop], propTypes, defaultProps),
+        : resolver(propName, propTypes[propName], defaultProps[propName], propTypes, defaultProps),
       undefined
     ))
     .reduce((props, value, i) => ({
       ...props,
-      [propKeys[i]]: value
+      [propNames[i]]: value
     }), defaultProps)
 }
