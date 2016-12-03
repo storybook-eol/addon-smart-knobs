@@ -1,5 +1,13 @@
 # Smart knobs addon for Storybook
 
+This Storybook plugin uses storybook-addon-knobs but creates the knobs automatically based on PropTypes.
+
+## Installation:
+
+```
+npm i storybook-addon-smart-knobs --save-dev
+```
+
 ## Usage:
 
 ```js
