@@ -62,7 +62,20 @@ export const withSmartKnobs = (story, context) => {
     ...component.props
   }
 
-  return withKnobs(() => cloneElement(component, resolvePropValues(props, defaultProps)), context)
+  const finalProps = Object.keys(props).reduce((acc, n) => {
+    const item = props[n];
+    if (!item.type) {
+      console.warn(`There is a prop with defaultValue ${item.defaultValue.value} but it wasnt specified on element.propTypes. Check story: "${context.kind}".`);
+      return acc;
+    }
+
+    return {
+      ...acc,
+      [n]: item,
+    };
+  }, {});
+
+  return withKnobs(() => cloneElement(component, resolvePropValues(finalProps, defaultProps)), context)
 }
 
 const resolvePropValues = (propTypes, defaultProps) => {

@@ -2,7 +2,8 @@ import React from 'react'
 import { storiesOf } from '@kadira/storybook'
 import { withSmartKnobs } from '../../src'
 
-import SmartKnobedComponent from './SmartKnobedComponent'
+import SmartKnobedComponent from './SmartKnobedComponent';
+import SmartKnobedComponentMissingProps from './SmartKnobedComponentMissingProps';
 
 storiesOf('Example of smart Knobs', module)
   .addDecorator(withSmartKnobs)
@@ -10,5 +11,8 @@ storiesOf('Example of smart Knobs', module)
     <SmartKnobedComponent />
   ))
 
-
-  console.log(SmartKnobedComponent.__docgenInfo)
+storiesOf('Smart Knobs missing props', module)
+  .addDecorator(withSmartKnobs)
+  .add('example', () => (
+    <SmartKnobedComponentMissingProps foo="baz" />
+  ))
