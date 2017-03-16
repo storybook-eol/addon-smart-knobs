@@ -12,15 +12,16 @@ const SmartKnobedComponent = props => (
         <th>typeof</th>
       </tr>
     </thead>
-
-    { Object.keys(props).map(prop => (
-      <tr key={ prop }>
-        <th>{ prop }</th>
-        <td>{ SmartKnobedComponent.__docgenInfo.props[prop].type.name }</td>
-        <td>{ typeof props[prop] === 'function' ? <i>function</i> : JSON.stringify(props[prop]) || '(empty)' }</td>
-        <td>{ typeof props[prop] }</td>
-      </tr>
-    )) }
+    <tbody>
+      {Object.keys(props).map(prop => (
+        <tr key={ prop }>
+          <th>{ prop }</th>
+          <td>{ SmartKnobedComponent.__docgenInfo.props[prop].type.name }</td>
+          <td>{ typeof props[prop] === 'function' ? <i>function</i> : JSON.stringify(props[prop]) || '(empty)' }</td>
+          <td>{ typeof props[prop] }</td>
+        </tr>
+      ))}
+    </tbody>
   </table>
 )
 
