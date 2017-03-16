@@ -19,10 +19,10 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 var knobResolvers = {};
 var addKnobResolver = exports.addKnobResolver = function addKnobResolver(_ref) {
-  var name = _ref.name;
-  var resolver = _ref.resolver;
-  var _ref$weight = _ref.weight;
-  var weight = _ref$weight === undefined ? 0 : _ref$weight;
+  var name = _ref.name,
+      resolver = _ref.resolver,
+      _ref$weight = _ref.weight,
+      weight = _ref$weight === undefined ? 0 : _ref$weight;
   return knobResolvers[name] = { name: name, resolver: resolver, weight: weight };
 };
 
@@ -48,10 +48,10 @@ var propTypeKnobsMap = [{ name: 'string', knob: _storybookAddonKnobs.text }, { n
   } }, { name: 'object', knob: _storybookAddonKnobs.object }, { name: 'node', knob: _storybookAddonKnobs.text }, { name: 'element', knob: _storybookAddonKnobs.text }];
 
 propTypeKnobsMap.forEach(function (_ref2, weight) {
-  var name = _ref2.name;
-  var knob = _ref2.knob;
-  var _ref2$args = _ref2.args;
-  var args = _ref2$args === undefined ? [] : _ref2$args;
+  var name = _ref2.name,
+      knob = _ref2.knob,
+      _ref2$args = _ref2.args,
+      args = _ref2$args === undefined ? [] : _ref2$args;
   return addKnobResolver({
     weight: weight * 10,
     name: 'PropTypes.' + name,
@@ -90,8 +90,18 @@ var withSmartKnobs = exports.withSmartKnobs = function withSmartKnobs(story, con
 
   var defaultProps = _extends({}, component.type.defaultProps || {}, component.props);
 
+  var finalProps = Object.keys(props).reduce(function (acc, n) {
+    var item = props[n];
+    if (!item.type) {
+      console.warn('There is a prop with defaultValue ' + item.defaultValue.value + ' but it wasnt specified on element.propTypes. Check story: "' + context.kind + '".');
+      return acc;
+    }
+
+    return _extends({}, acc, _defineProperty({}, n, item));
+  }, {});
+
   return (0, _storybookAddonKnobs.withKnobs)(function () {
-    return (0, _react.cloneElement)(component, resolvePropValues(props, defaultProps));
+    return (0, _react.cloneElement)(component, resolvePropValues(finalProps, defaultProps));
   }, context);
 };
 
