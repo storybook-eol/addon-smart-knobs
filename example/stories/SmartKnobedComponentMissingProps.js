@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+/* eslint-disable react/prop-types */
+import React, { PropTypes } from 'react'
 
 const SmartKnobedComponentMissingProps = ({
   foo = '',
@@ -9,10 +10,10 @@ const SmartKnobedComponentMissingProps = ({
     <p>{foo}</p>
     <p>{bar}</p>
   </code>
-);
+)
 
 SmartKnobedComponentMissingProps.propTypes = {
   foo: PropTypes.string.isRequired,
-};
+}
 
-export default SmartKnobedComponentMissingProps;
+export default SmartKnobedComponentMissingProps

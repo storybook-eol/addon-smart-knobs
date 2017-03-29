@@ -3,8 +3,8 @@ import { storiesOf } from '@kadira/storybook'
 import { withSmartKnobs } from '../../src'
 import { withKnobs, select } from '@kadira/storybook-addon-knobs';
 
-import SmartKnobedComponent from './SmartKnobedComponent';
-import SmartKnobedComponentMissingProps from './SmartKnobedComponentMissingProps';
+import SmartKnobedComponent from './SmartKnobedComponent'
+import SmartKnobedComponentMissingProps from './SmartKnobedComponentMissingProps'
 
 const stub = fn => fn();
 
@@ -19,7 +19,7 @@ storiesOf('Smart Knobs missing props', module)
   .addDecorator(withSmartKnobs)
   .addDecorator(withKnobs)
   .add('example', () => (
-    <SmartKnobedComponentMissingProps foo="baz" />
+    <SmartKnobedComponentMissingProps foo='baz' />
   ))
 
 storiesOf('Smart Knobs with manual knobs', module)
