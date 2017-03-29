@@ -1,5 +1,5 @@
 import { cloneElement } from 'react'
-import { action } from '@kadira/storybook'
+import { action } from '@kadira/storybook-addon-actions'
 import { withKnobs, text, boolean, number, object, select } from '@kadira/storybook-addon-knobs'
 
 const knobResolvers = {}
@@ -62,7 +62,7 @@ export const withSmartKnobs = (story, context) => {
     ...component.props
   }
 
-  const finalProps = Object.keys(props).reduce((acc, n) => {
+  const finalProps = props ? Object.keys(props).reduce((acc, n) => {
     const item = props[n];
     if (!item.type) {
       console.warn(`There is a prop with defaultValue ${item.defaultValue.value} but it wasnt specified on element.propTypes. Check story: "${context.kind}".`);
@@ -73,9 +73,9 @@ export const withSmartKnobs = (story, context) => {
       ...acc,
       [n]: item,
     };
-  }, {});
+  }, {}) : {};
 
-  return withKnobs(() => cloneElement(component, resolvePropValues(finalProps, defaultProps)), context)
+  return cloneElement(component, resolvePropValues(finalProps, defaultProps))
 }
 
 const resolvePropValues = (propTypes, defaultProps) => {
@@ -92,6 +92,6 @@ const resolvePropValues = (propTypes, defaultProps) => {
     ))
     .reduce((props, value, i) => ({
       ...props,
-      [propNames[i]]: value
+      [propNames[i]]: value !== undefined ? value : defaultProps[propNames[i]]
     }), defaultProps)
 }

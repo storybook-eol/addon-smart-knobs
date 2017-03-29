@@ -9,7 +9,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _react = require('react');
 
-var _storybook = require('@kadira/storybook');
+var _storybookAddonActions = require('@kadira/storybook-addon-actions');
 
 var _storybookAddonKnobs = require('@kadira/storybook-addon-knobs');
 
@@ -44,7 +44,7 @@ var propTypeKnobResolver = exports.propTypeKnobResolver = function propTypeKnobR
 /* eslint-disable no-multi-spaces */
 // Default simple PropType based knob map.
 var propTypeKnobsMap = [{ name: 'string', knob: _storybookAddonKnobs.text }, { name: 'number', knob: _storybookAddonKnobs.number }, { name: 'bool', knob: _storybookAddonKnobs.boolean }, { name: 'func', knob: function knob(name, value) {
-    return value || (0, _storybook.action)(name);
+    return value || (0, _storybookAddonActions.action)(name);
   } }, { name: 'object', knob: _storybookAddonKnobs.object }, { name: 'node', knob: _storybookAddonKnobs.text }, { name: 'element', knob: _storybookAddonKnobs.text }];
 
 propTypeKnobsMap.forEach(function (_ref2, weight) {
@@ -90,7 +90,7 @@ var withSmartKnobs = exports.withSmartKnobs = function withSmartKnobs(story, con
 
   var defaultProps = _extends({}, component.type.defaultProps || {}, component.props);
 
-  var finalProps = Object.keys(props).reduce(function (acc, n) {
+  var finalProps = props ? Object.keys(props).reduce(function (acc, n) {
     var item = props[n];
     if (!item.type) {
       console.warn('There is a prop with defaultValue ' + item.defaultValue.value + ' but it wasnt specified on element.propTypes. Check story: "' + context.kind + '".');
@@ -98,11 +98,9 @@ var withSmartKnobs = exports.withSmartKnobs = function withSmartKnobs(story, con
     }
 
     return _extends({}, acc, _defineProperty({}, n, item));
-  }, {});
+  }, {}) : {};
 
-  return (0, _storybookAddonKnobs.withKnobs)(function () {
-    return (0, _react.cloneElement)(component, resolvePropValues(finalProps, defaultProps));
-  }, context);
+  return (0, _react.cloneElement)(component, resolvePropValues(finalProps, defaultProps));
 };
 
 var resolvePropValues = function resolvePropValues(propTypes, defaultProps) {
@@ -118,6 +116,6 @@ var resolvePropValues = function resolvePropValues(propTypes, defaultProps) {
       return value !== undefined ? value : resolver(propName, propTypes[propName], defaultProps[propName], propTypes, defaultProps);
     }, undefined);
   }).reduce(function (props, value, i) {
-    return _extends({}, props, _defineProperty({}, propNames[i], value));
+    return _extends({}, props, _defineProperty({}, propNames[i], value !== undefined ? value : defaultProps[propNames[i]]));
   }, defaultProps);
 };
