@@ -1,6 +1,6 @@
 import { cloneElement } from 'react'
-import { action } from '@kadira/storybook-addon-actions'
-import { withKnobs, text, boolean, number, object, select } from '@kadira/storybook-addon-knobs'
+import { action } from '@storybook/addon-actions'
+import { withKnobs, text, boolean, number, object, select } from '@storybook/addon-knobs'
 
 const knobResolvers = {}
 export const addKnobResolver = ({ name, resolver, weight = 0 }) => (knobResolvers[name] = { name, resolver, weight })

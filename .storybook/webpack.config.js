@@ -4,12 +4,16 @@
 // Do not modify this file.
 // Use `.storybook/user/modify_webpack_config.js instead`.
 
-const config = {
-  module: {
-    loaders: [
-      { test: /\.css?$/, loader: 'style!css' },
-    ],
-  },
-}
+const path = require('path')
 
-module.exports = config
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.(css)$/,
+        loaders: ['style-loader', 'css-loader'],
+        include: path.resolve(__dirname, '../')
+      }
+    ]
+  }
+}
