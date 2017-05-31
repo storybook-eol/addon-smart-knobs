@@ -9,9 +9,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _react = require('react');
 
-var _storybookAddonActions = require('@kadira/storybook-addon-actions');
+var _addonActions = require('@storybook/addon-actions');
 
-var _storybookAddonKnobs = require('@kadira/storybook-addon-knobs');
+var _addonKnobs = require('@storybook/addon-knobs');
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -43,9 +43,9 @@ var propTypeKnobResolver = exports.propTypeKnobResolver = function propTypeKnobR
 
 /* eslint-disable no-multi-spaces */
 // Default simple PropType based knob map.
-var propTypeKnobsMap = [{ name: 'string', knob: _storybookAddonKnobs.text }, { name: 'number', knob: _storybookAddonKnobs.number }, { name: 'bool', knob: _storybookAddonKnobs.boolean }, { name: 'func', knob: function knob(name, value) {
-    return value || (0, _storybookAddonActions.action)(name);
-  } }, { name: 'object', knob: _storybookAddonKnobs.object }, { name: 'node', knob: _storybookAddonKnobs.text }, { name: 'element', knob: _storybookAddonKnobs.text }];
+var propTypeKnobsMap = [{ name: 'string', knob: _addonKnobs.text }, { name: 'number', knob: _addonKnobs.number }, { name: 'bool', knob: _addonKnobs.boolean }, { name: 'func', knob: function knob(name, value) {
+    return value || (0, _addonActions.action)(name);
+  } }, { name: 'object', knob: _addonKnobs.object }, { name: 'node', knob: _addonKnobs.text }, { name: 'element', knob: _addonKnobs.text }];
 
 propTypeKnobsMap.forEach(function (_ref2, weight) {
   var name = _ref2.name,
@@ -76,7 +76,7 @@ addKnobResolver({
           return _extends({}, res, _defineProperty({}, value, value));
         }, {});
 
-        return (0, _storybookAddonKnobs.select)(propName, _extends({ '': '--' }, options), defaultProps[propName]);
+        return (0, _addonKnobs.select)(propName, _extends({ '': '--' }, options), defaultProps[propName]);
       } catch (e) {}
     }
   }
@@ -92,6 +92,7 @@ var withSmartKnobs = exports.withSmartKnobs = function withSmartKnobs(story, con
 
   var finalProps = props ? Object.keys(props).reduce(function (acc, n) {
     var item = props[n];
+
     if (!item.type) {
       console.warn('There is a prop with defaultValue ' + item.defaultValue.value + ' but it wasnt specified on element.propTypes. Check story: "' + context.kind + '".');
       return acc;
