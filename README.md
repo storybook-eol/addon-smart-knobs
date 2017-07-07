@@ -13,7 +13,7 @@ npm i storybook-addon-smart-knobs --save-dev
 ```js
 import React, { PropTypes } from 'react'
 import { storiesOf } from '@storybook/react'
-import { withKnobs } from '@storybok/addon-knobs'
+import { withKnobs } from '@storybook/addon-knobs'
 import { withSmartKnobs } from 'storybook-addon-smart-knobs'
 
 const Button = ({ children, onClick }) => (
