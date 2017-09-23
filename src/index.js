@@ -56,10 +56,15 @@ addKnobResolver({
 
 export const withSmartKnobs = (story, context) => {
   const component = story(context)
-  const { __docgenInfo: { props } = { props: { } } } = component.type
+
+  let target = component.props.marksyConf && component.props.propTables && component.props.propTablesExclude
+    ? component.props.children
+    : component
+
+  const { __docgenInfo: { props } = { props: {} } } = target.type
   const defaultProps = {
-    ...(component.type.defaultProps || {}),
-    ...component.props
+    ...(target.type.defaultProps || {}),
+    ...target.props
   }
 
   const finalProps = props ? Object.keys(props).reduce((acc, n) => {
@@ -76,7 +81,13 @@ export const withSmartKnobs = (story, context) => {
     }
   }, {}) : {}
 
-  return cloneElement(component, resolvePropValues(finalProps, defaultProps))
+  const newProps = resolvePropValues(finalProps, defaultProps)
+
+  if (component.props.marksyConf) {
+    return cloneElement(component, { ...component.props, children: cloneElement(component.props.children, newProps) })
+  }
+
+  return cloneElement(component, newProps)
 }
 
 const resolvePropValues = (propTypes, defaultProps) => {
