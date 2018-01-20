@@ -1,6 +1,6 @@
 {
   "name": "storybook-addon-smart-knobs",
-  "version": "3.2.10",
+  "version": "3.3.0",
   "description": "Automatically created knobs for storybook.",
   "main": "dist/index.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "storybook": "start-storybook -p 9010",
     "prepublish": "npm run clean && npm run compile"
   },
-  "author": "",
+  "author": "Storybook Team",
   "license": "MIT",
   "peerDependencies": {
     "@storybook/addon-knobs": "^3.2.10",
@@ -19,19 +19,22 @@
     "react": "^15.6.2"
   },
   "devDependencies": {
-    "@storybook/addon-info": "^3.2.10",
-    "@storybook/addon-knobs": "^3.2.10",
-    "@storybook/addon-options": "^3.2.10",
-    "@storybook/react": "^3.2.10",
+    "@storybook/addon-info": "^3.3.10",
+    "@storybook/addon-knobs": "^3.3.10",
+    "@storybook/addon-options": "^3.3.10",
+    "@storybook/react": "^3.3.10",
     "babel-cli": "^6.26.0",
-    "babel-plugin-react-docgen": "^1.8.0",
+    "babel-core": "^6.26.0",
+    "babel-plugin-react-docgen": "^1.8.2",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
-    "css-loader": "^0.28.7",
+    "babel-runtime": "^6.26.0",
+    "css-loader": "^0.28.9",
     "eslint-config-taller": "^1.0.4",
-    "jest": "^21.1.0",
-    "react": "^15.6.2",
-    "react-dom": "^15.6.2"
+    "jest": "^22.1.4",
+    "prop-types": "^15.6.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
   }
 }
