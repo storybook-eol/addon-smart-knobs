@@ -2,21 +2,15 @@
   "name": "storybook-addon-smart-knobs",
   "version": "3.3.0",
   "description": "Automatically created knobs for storybook.",
+  "license": "MIT",
+  "author": "Storybook Team",
   "main": "dist/index.js",
   "scripts": {
-    "test": "jest",
     "clean": "rm -Rf ./dist",
     "compile": "babel ./src --out-dir ./dist",
+    "prepublish": "npm run clean && npm run compile",
     "storybook": "start-storybook -p 9010",
-    "prepublish": "npm run clean && npm run compile"
-  },
-  "author": "Storybook Team",
-  "license": "MIT",
-  "peerDependencies": {
-    "@storybook/addon-knobs": "^3.2.10",
-    "@storybook/addon-options": "^3.2.10",
-    "@storybook/react": "^3.2.10",
-    "react": "^15.6.2"
+    "test": "jest"
   },
   "devDependencies": {
     "@storybook/addon-info": "^3.3.10",
@@ -36,5 +30,11 @@
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0"
+  },
+  "peerDependencies": {
+    "@storybook/addon-knobs": "^3.3.10",
+    "@storybook/addon-options": "^3.3.10",
+    "@storybook/react": "^3.3.10",
+    "react": ">=15.0.0 || ^16.0.0"
   }
 }
