@@ -1,5 +1,7 @@
 # Smart knobs addon for Storybook
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/storybooks/addon-smart-knobs.svg)](https://greenkeeper.io/)
+
 This Storybook plugin uses `@storybook/addon-knobs` but creates the knobs automatically based on PropTypes.
 
 ## Installation:
