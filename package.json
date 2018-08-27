@@ -6,7 +6,7 @@
   "author": "Storybook Team",
   "main": "dist/index.js",
   "scripts": {
-    "clean": "rm -Rf ./dist",
+    "clean": "rimraf ./dist",
     "compile": "babel ./src --out-dir ./dist",
     "prepublish": "npm run clean && npm run compile",
     "storybook": "start-storybook -p 9010",
@@ -29,7 +29,8 @@
     "jest": "^22.1.4",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
-    "react-dom": "^16.2.0"
+    "react-dom": "^16.2.0",
+    "rimraf": "^2.6.2"
   },
   "peerDependencies": {
     "@storybook/addon-knobs": "^3.3.10",
