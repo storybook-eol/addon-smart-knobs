@@ -84,7 +84,8 @@ export const withSmartKnobs = (story, context) => {
     const item = ensureType(props[n])
 
     if (!item.type) {
-      console.warn(`There is a prop with defaultValue ${item.defaultValue.value} but it wasnt specified on element.propTypes. Check story: "${context.kind}".`)
+      const defaultValue = item.defaultValue ? item.defaultValue.value : 'Unkwnow'
+      console.warn(`There is a prop with defaultValue ${defaultValue} but it wasnt specified on element.propTypes. Check story: "${context.kind}".`)
       return acc
     }
 
