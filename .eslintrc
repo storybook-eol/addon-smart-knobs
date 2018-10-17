@@ -1,7 +1,11 @@
 {
-  extends: [ "taller/react" ],
-  globals: {
-    __DEBUG__: true,
-    location: true
+  "parser": "babel-eslint",
+  "extends": [ "taller/react", "plugin:flowtype/recommended"],
+  "plugins": [
+    "flowtype"
+  ],
+  "globals": {
+    "__DEBUG__": true,
+    "location": true
   }
 }
