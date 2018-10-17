@@ -1,6 +1,6 @@
 # Smart knobs addon for Storybook
 
-This Storybook plugin uses `@storybook/addon-knobs` but creates the knobs automatically based on PropTypes.
+This Storybook plugin uses `@storybook/addon-knobs` but creates the knobs automatically based on PropTypes and Flow.
 
 ## Installation:
 
