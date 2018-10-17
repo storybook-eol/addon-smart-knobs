@@ -6,19 +6,31 @@ import { withInfo } from '@storybook/addon-info'
 
 import SmartKnobedComponent from './SmartKnobedComponent'
 import SmartKnobedComponentMissingProps from './SmartKnobedComponentMissingProps'
+import SmartKnobedComponentWithFlow from './SmartKnobedComponentWithFlow'
 
 const stub = fn => fn()
 
-  
-storiesOf("Example of smart Knobs", module)
+storiesOf('Example of smart Knobs', module)
   .addDecorator(withSmartKnobs)
   .addDecorator(withKnobs)
-  .add("full example", () => <SmartKnobedComponent />);
+  .add('full example', () => <SmartKnobedComponent />)
+
+storiesOf('Example of smart Knobs', module)
+  .addDecorator(withSmartKnobs)
+  .addDecorator(withKnobs)
+  .add('full flow\'s example', () => <SmartKnobedComponentWithFlow />)
 
 storiesOf('Example of smart Knobs', module)
   .addDecorator(withSmartKnobs)
   .addDecorator(withKnobs)
   .add('full example with info', withInfo('test')(() => (
+    <SmartKnobedComponent />
+  )))
+
+storiesOf('Example of smart Knobs', module)
+  .addDecorator(withSmartKnobs)
+  .addDecorator(withKnobs)
+  .add('full flow\'s example with info', withInfo('test')(() => (
     <SmartKnobedComponent />
   )))
 
