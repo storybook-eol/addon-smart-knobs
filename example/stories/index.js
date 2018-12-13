@@ -5,22 +5,24 @@ import { withKnobs, select } from '@storybook/addon-knobs'
 
 import SmartKnobedComponent from './SmartKnobedComponent'
 import SmartKnobedComponentMissingProps from './SmartKnobedComponentMissingProps'
+import SmartKnobedComponentWithFlow from './SmartKnobedComponentWithFlow'
 
 const stub = fn => fn()
 
-storiesOf('Example of smart Knobs', module)
+storiesOf('Basic', module)
   .addDecorator(withSmartKnobs)
   .addDecorator(withKnobs)
-  .add('full example', () => <SmartKnobedComponent />)
+  .add('proptypes', () => <SmartKnobedComponent />)
+  .add('flow', () => <SmartKnobedComponentWithFlow />)
 
-storiesOf('Smart Knobs missing props', module)
+storiesOf('Missing props', module)
   .addDecorator(withSmartKnobs)
   .addDecorator(withKnobs)
   .add('example', () => (
     <SmartKnobedComponentMissingProps foo='baz' />
   ))
 
-storiesOf('Smart Knobs with manual knobs', module)
+storiesOf('Manual knobs', module)
   .addDecorator(stub)
   .addDecorator(withSmartKnobs)
   .addDecorator(withKnobs)

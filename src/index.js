@@ -1,6 +1,6 @@
 import { cloneElement } from 'react'
 import { action } from '@storybook/addon-actions'
-import { withKnobs, text, boolean, number, object, select } from '@storybook/addon-knobs'
+import { text, boolean, number, object, select } from '@storybook/addon-knobs'
 
 const knobResolvers = {}
 export const addKnobResolver = ({ name, resolver, weight = 0 }) => (knobResolvers[name] = { name, resolver, weight })
@@ -14,6 +14,11 @@ export const propTypeKnobResolver = (name, knob, ...args) =>
   (propName, propType, value, propTypes, defaultProps) =>
     propType.type.name === name ? knob(propName, value, ...args) : undefined
 
+const flowTypeKnobsMap = [
+  { name: 'signature', knob: (name, value) => value || action(name) },
+  { name: 'boolean', knob: boolean },
+]
+
 /* eslint-disable no-multi-spaces */
 // Default simple PropType based knob map.
 const propTypeKnobsMap = [
@@ -26,34 +31,42 @@ const propTypeKnobsMap = [
   { name: 'element', knob: text },
 ]
 
-propTypeKnobsMap.forEach(({ name, knob, args = [] }, weight) => addKnobResolver({
+const typeKnobsMap = [...flowTypeKnobsMap, ...propTypeKnobsMap]
+
+typeKnobsMap.forEach(({ name, knob, args = [] }, weight) => addKnobResolver({
   weight: weight * 10,
   name: `PropTypes.${name}`,
   resolver: propTypeKnobResolver(name, knob, ...args)
 }))
 
+const optionsReducer = (res, value) => ({ ...res, [value]: value })
+const withDefaultOption = (options) => ({ '': '--', ...options })
+const createSelect = (propName, elements, defaultProps) => {
+  try {
+    const options = elements
+    // Cleanup string quotes, if any.
+  .map(value => value.value.replace(/^'(.*)'$/, '$1'))
+  .reduce(optionsReducer, {})
+    return select(propName, withDefaultOption(options), defaultProps[propName])
+  }
+  catch (e) { }
+}
+
 // Register 'oneOf' PropType knob resolver.
 addKnobResolver({
   name: 'PropTypes.oneOf',
   resolver: (propName, propType, value, propTypes, defaultProps) => {
-    /* eslint-disable quotes */
     if (propType.type.name === 'enum' && propType.type.value.length) {
-      try {
-        const options = propType.type.value
-          .map(value => value.value)
-        // Cleanup string quotes, if any.
-          .map(value => value[0] === "'" && value[value.length - 1] === "'"
-            ? '"' + value.replace(/'"'/g, '\\"').slice(1, value.length - 1) + '"' : value)
-          .map(JSON.parse)
-          .reduce((res, value) => ({ ...res, [value]: value }), {})
-
-        return select(propName, { '': '--', ...options }, defaultProps[propName])
-      }
-      catch (e) { }
+      return createSelect(propName, propType.type.value, defaultProps)
+    }
+    // for flow support
+    if (propType.type.name === 'union' && propType.type.elements) {
+      return createSelect(propName, propType.type.elements, defaultProps)
     }
   }
 })
 
+const ensureType = (item) => item.flowType ? ({ ...item, type: item.flowType }) : item
 export const withSmartKnobs = (story, context) => {
   const component = story(context)
 
@@ -68,10 +81,11 @@ export const withSmartKnobs = (story, context) => {
   }
 
   const finalProps = props ? Object.keys(props).reduce((acc, n) => {
-    const item = props[n]
+    const item = ensureType(props[n])
 
     if (!item.type) {
-      console.warn(`There is a prop with defaultValue ${item.defaultValue.value} but it wasnt specified on element.propTypes. Check story: "${context.kind}".`)
+      const defaultValue = item.defaultValue ? item.defaultValue.value : 'Unkwnow'
+      console.warn(`There is a prop with defaultValue ${defaultValue} but it wasnt specified on element.propTypes. Check story: "${context.kind}".`)
       return acc
     }
 
