@@ -2,25 +2,16 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { withSmartKnobs } from '../../src'
 import { withKnobs, select } from '@storybook/addon-knobs'
-import { withInfo } from '@storybook/addon-info'
 
 import SmartKnobedComponent from './SmartKnobedComponent'
 import SmartKnobedComponentMissingProps from './SmartKnobedComponentMissingProps'
 
 const stub = fn => fn()
 
-  
-storiesOf("Example of smart Knobs", module)
-  .addDecorator(withSmartKnobs)
-  .addDecorator(withKnobs)
-  .add("full example", () => <SmartKnobedComponent />);
-
 storiesOf('Example of smart Knobs', module)
   .addDecorator(withSmartKnobs)
   .addDecorator(withKnobs)
-  .add('full example with info', withInfo('test')(() => (
-    <SmartKnobedComponent />
-  )))
+  .add('full example', () => <SmartKnobedComponent />)
 
 storiesOf('Smart Knobs missing props', module)
   .addDecorator(withSmartKnobs)

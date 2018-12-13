@@ -40,12 +40,12 @@ addKnobResolver({
     if (propType.type.name === 'enum' && propType.type.value.length) {
       try {
         const options = propType.type.value
-        .map(value => value.value)
+          .map(value => value.value)
         // Cleanup string quotes, if any.
-        .map(value => value[0] === "'" && value[value.length - 1] === "'"
-        ? '"' + value.replace(/'"'/g, '\\"').slice(1, value.length - 1) + '"' : value)
-        .map(JSON.parse)
-        .reduce((res, value) => ({ ...res, [value]: value }), {})
+          .map(value => value[0] === "'" && value[value.length - 1] === "'"
+            ? '"' + value.replace(/'"'/g, '\\"').slice(1, value.length - 1) + '"' : value)
+          .map(JSON.parse)
+          .reduce((res, value) => ({ ...res, [value]: value }), {})
 
         return select(propName, { '': '--', ...options }, defaultProps[propName])
       }
