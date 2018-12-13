@@ -2,7 +2,6 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { withSmartKnobs } from '../../src'
 import { withKnobs, select } from '@storybook/addon-knobs'
-import { withInfo } from '@storybook/addon-info'
 
 import SmartKnobedComponent from './SmartKnobedComponent'
 import SmartKnobedComponentMissingProps from './SmartKnobedComponentMissingProps'
@@ -10,38 +9,20 @@ import SmartKnobedComponentWithFlow from './SmartKnobedComponentWithFlow'
 
 const stub = fn => fn()
 
-storiesOf('Example of smart Knobs', module)
+storiesOf('Basic', module)
   .addDecorator(withSmartKnobs)
   .addDecorator(withKnobs)
-  .add('full example', () => <SmartKnobedComponent />)
+  .add('proptypes', () => <SmartKnobedComponent />)
+  .add('flow', () => <SmartKnobedComponentWithFlow />)
 
-storiesOf('Example of smart Knobs', module)
-  .addDecorator(withSmartKnobs)
-  .addDecorator(withKnobs)
-  .add('full flow\'s example', () => <SmartKnobedComponentWithFlow />)
-
-storiesOf('Example of smart Knobs', module)
-  .addDecorator(withSmartKnobs)
-  .addDecorator(withKnobs)
-  .add('full example with info', withInfo('test')(() => (
-    <SmartKnobedComponent />
-  )))
-
-storiesOf('Example of smart Knobs', module)
-  .addDecorator(withSmartKnobs)
-  .addDecorator(withKnobs)
-  .add('full flow\'s example with info', withInfo('test')(() => (
-    <SmartKnobedComponent />
-  )))
-
-storiesOf('Smart Knobs missing props', module)
+storiesOf('Missing props', module)
   .addDecorator(withSmartKnobs)
   .addDecorator(withKnobs)
   .add('example', () => (
     <SmartKnobedComponentMissingProps foo='baz' />
   ))
 
-storiesOf('Smart Knobs with manual knobs', module)
+storiesOf('Manual knobs', module)
   .addDecorator(stub)
   .addDecorator(withSmartKnobs)
   .addDecorator(withKnobs)
