@@ -1,6 +1,6 @@
 {
   "name": "storybook-addon-smart-knobs",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "description": "Automatically created knobs for storybook.",
   "license": "MIT",
   "author": "Storybook Team",
