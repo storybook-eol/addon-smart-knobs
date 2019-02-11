@@ -31,3 +31,6 @@ storiesOf('Button')
   .add('simple', () => <Button>Smart knobed button</Button>)
 
 ```
+
+## Demo:
+Check out the [latest example]() (currently broken link)
