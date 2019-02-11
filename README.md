@@ -53,3 +53,5 @@ module.exports = (baseConfig, env, defaultConfig) => {
   return defaultConfig
 }
 ```
+## Demo:
+Check out the [latest example]() (currently broken link)
