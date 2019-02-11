@@ -33,4 +33,4 @@ storiesOf('Button')
 ```
 
 ## Demo:
-Check out the [latest example]() (currently broken link)
+Check out the [latest example](https://addon-smart-knobs-4r3lu9syy.now.sh)
