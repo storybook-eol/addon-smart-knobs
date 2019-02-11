@@ -11,6 +11,8 @@
     "compile": "babel ./src --out-dir ./dist",
     "prepublish": "npm run clean && npm run compile",
     "storybook": "start-storybook -p 9010",
+    "build-storybook": "build-storybook -c .storybook",
+    "now-build": "npm run build-storybook",
     "test": "jest"
   },
   "devDependencies": {
