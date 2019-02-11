@@ -33,5 +33,6 @@ storiesOf('Button')
 ```
 
 ## Demo:
-Check out the [latest example](https://addon-smart-knobs-4r3lu9syy.now.sh)
+Check out the [latest example via now.sh](https://addon-smart-knobs-4r3lu9syy.now.sh)
+
 Check out the [static version via githack](https://raw.githack.com/barakplasma/addon-smart-knobs/master/storybook-static/index.html)
