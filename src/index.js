@@ -29,6 +29,7 @@ const propTypeKnobsMap = [
   { name: 'object', knob: object },
   { name: 'node', knob: text },
   { name: 'element', knob: text },
+  { name: 'array', knob: object },
 ]
 
 const typeKnobsMap = [...flowTypeKnobsMap, ...propTypeKnobsMap]
