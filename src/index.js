@@ -45,7 +45,7 @@ const createSelect = (propName, elements, defaultProps) => {
   try {
     const options = elements
     // Cleanup string quotes, if any.
-  .map(value => value.value.replace(/^'(.*)'$/, '$1'))
+  .map(value => value.value.replace(/^['"](.*)['"]$/, '$1'))
   .reduce(optionsReducer, {})
     return select(propName, withDefaultOption(options), defaultProps[propName])
   }
