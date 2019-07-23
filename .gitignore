@@ -2,3 +2,4 @@ node_modules/
 dist
 settings.json
 storybook-static/
+package-lock.json
