@@ -1,5 +1,6 @@
 import { cloneElement } from 'react'
 import { action } from '@storybook/addon-actions'
+import { logger } from '@storybook/client-logger'
 import { text, boolean, number, object, select } from '@storybook/addon-knobs'
 
 const knobResolvers = {}
@@ -46,8 +47,8 @@ const createSelect = (propName, elements, defaultProps) => {
   try {
     const options = elements
     // Cleanup string quotes, if any.
-  .map(value => value.value.replace(/^['"](.*)['"]$/, '$1'))
-  .reduce(optionsReducer, {})
+      .map(value => value.value.replace(/^['"](.*)['"]$/, '$1'))
+      .reduce(optionsReducer, {})
     return select(propName, withDefaultOption(options), defaultProps[propName])
   }
   catch (e) { }
@@ -86,7 +87,7 @@ export const withSmartKnobs = (story, context) => {
 
     if (!item.type) {
       const defaultValue = item.defaultValue ? item.defaultValue.value : 'Unknown'
-      console.warn(`There is a prop with defaultValue ${defaultValue} but it wasnt specified on element.propTypes. Check story: "${context.kind}".`)
+      logger.warn(`There is a prop with defaultValue ${defaultValue} but it wasn't specified on element.propTypes. Check story: "${context.kind}".`)
       return acc
     }
 
