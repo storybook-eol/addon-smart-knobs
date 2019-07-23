@@ -29,6 +29,7 @@ const propTypeKnobsMap = [
   { name: 'object', knob: object },
   { name: 'node', knob: text },
   { name: 'element', knob: text },
+  { name: 'array', knob: object },
 ]
 
 const typeKnobsMap = [...flowTypeKnobsMap, ...propTypeKnobsMap]
@@ -45,7 +46,7 @@ const createSelect = (propName, elements, defaultProps) => {
   try {
     const options = elements
     // Cleanup string quotes, if any.
-  .map(value => value.value.replace(/^'(.*)'$/, '$1'))
+  .map(value => value.value.replace(/^['"](.*)['"]$/, '$1'))
   .reduce(optionsReducer, {})
     return select(propName, withDefaultOption(options), defaultProps[propName])
   }
@@ -84,7 +85,7 @@ export const withSmartKnobs = (story, context) => {
     const item = ensureType(props[n])
 
     if (!item.type) {
-      const defaultValue = item.defaultValue ? item.defaultValue.value : 'Unkwnow'
+      const defaultValue = item.defaultValue ? item.defaultValue.value : 'Unknown'
       console.warn(`There is a prop with defaultValue ${defaultValue} but it wasnt specified on element.propTypes. Check story: "${context.kind}".`)
       return acc
     }
