@@ -1,6 +1,6 @@
 # Smart knobs addon for Storybook
 
-This Storybook plugin uses `@storybook/addon-knobs` but creates the knobs automatically based on PropTypes and Flow.
+This Storybook plugin uses `@storybook/addon-knobs` but creates the knobs automatically based on PropTypes, Flow and Typescript.
 
 ## Installation:
 
@@ -11,7 +11,8 @@ npm i storybook-addon-smart-knobs --save-dev
 ## Usage:
 
 ```js
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import { storiesOf } from '@storybook/react'
 import { withKnobs } from '@storybook/addon-knobs'
 import { withSmartKnobs } from 'storybook-addon-smart-knobs'
@@ -53,3 +54,7 @@ module.exports = (baseConfig, env, defaultConfig) => {
   return defaultConfig
 }
 ```
+
+## Typescript:
+
+Use [react-docgen-typescript-loader](https://github.com/strothj/react-docgen-typescript-loader) to generate docgen info from Typescript types. This docgen info will be used to automatically create knobs.
