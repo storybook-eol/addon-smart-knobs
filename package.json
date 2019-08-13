@@ -1,6 +1,6 @@
 {
-  "name": "storybook-addon-smart-knobs",
-  "version": "5.0.0",
+  "name": "@nekitk/storybook-addon-smart-knobs",
+  "version": "5.0.0-nekitk.0",
   "description": "Automatically created knobs for storybook.",
   "repository": "https://github.com/storybooks/addon-smart-knobs",
   "license": "MIT",
