@@ -42,14 +42,15 @@ typeKnobsMap.forEach(({ name, knob, args = [] }, weight) => addKnobResolver({
 }))
 
 const optionsReducer = (res, value) => ({ ...res, [value]: value })
-const withDefaultOption = (options) => ({ '': '--', ...options })
-const createSelect = (propName, elements, defaultProps) => {
+const withDefaultOption = (options) => ({ '--': null, ...options })
+const createSelect = (propName, elements, defaultProps, isRequired) => {
   try {
     const options = elements
     // Cleanup string quotes, if any.
       .map(value => value.value.replace(/^['"](.*)['"]$/, '$1'))
       .reduce(optionsReducer, {})
-    return select(propName, withDefaultOption(options), defaultProps[propName])
+    const value = defaultProps[propName] || (isRequired && Object.values(options)[0]) || undefined
+    return select(propName, isRequired ? options : withDefaultOption(options), value)
   }
   catch (e) { }
 }
@@ -59,11 +60,11 @@ addKnobResolver({
   name: 'PropTypes.oneOf',
   resolver: (propName, propType, value, propTypes, defaultProps) => {
     if (propType.type.name === 'enum' && propType.type.value.length) {
-      return createSelect(propName, propType.type.value, defaultProps)
+      return createSelect(propName, propType.type.value, defaultProps, propType.required)
     }
     // for flow support
     if (propType.type.name === 'union' && propType.type.elements) {
-      return createSelect(propName, propType.type.elements, defaultProps)
+      return createSelect(propName, propType.type.elements, defaultProps, propType.required)
     }
   }
 })
