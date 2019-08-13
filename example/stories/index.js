@@ -6,6 +6,7 @@ import { withKnobs, select } from '@storybook/addon-knobs'
 import SmartKnobedComponent from './SmartKnobedComponent'
 import SmartKnobedComponentMissingProps from './SmartKnobedComponentMissingProps'
 import SmartKnobedComponentWithFlow from './SmartKnobedComponentWithFlow'
+import { SmartKnobedComponentWithTypescript } from './SmartKnobedComponentWithTypescript'
 
 const stub = fn => fn()
 
@@ -14,6 +15,7 @@ storiesOf('Basic', module)
   .addDecorator(withKnobs)
   .add('proptypes', () => <SmartKnobedComponent />)
   .add('flow', () => <SmartKnobedComponentWithFlow />)
+  .add('typescript', () => <SmartKnobedComponentWithTypescript />)
 
 storiesOf('Missing props', module)
   .addDecorator(withSmartKnobs)

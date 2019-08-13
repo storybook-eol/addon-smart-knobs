@@ -27,16 +27,20 @@
     "@storybook/addon-options": "^5.0.0",
     "@storybook/client-logger": "^5.0.0",
     "@storybook/react": "^5.0.0",
+    "@types/react": "^16.9.1",
     "babel-loader": "^8.0.4",
-    "css-loader": "^3.1.0",
     "core-js": "^3.0.1",
+    "css-loader": "^3.1.0",
     "eslint-config-taller": "^2.0.0",
     "eslint-plugin-flowtype": "^3.5.1",
     "jest": "^24.7.1",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
+    "react-docgen-typescript-loader": "^3.1.1",
     "react-dom": "^16.8.6",
-    "rimraf": "^2.6.3"
+    "rimraf": "^2.6.3",
+    "ts-loader": "^6.0.4",
+    "typescript": "^3.5.3"
   },
   "peerDependencies": {
     "@storybook/addon-knobs": "^5.0.0",
