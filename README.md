@@ -1,3 +1,8 @@
+# Fork of [storybook-addon-smart-knobs](https://www.npmjs.com/package/storybook-addon-smart-knobs) including following pull requests:
+* [fix: no knobs after select](https://github.com/storybookjs/addon-smart-knobs/pull/60)
+* [feat: support for react-docgen-typescript-loader](https://github.com/storybookjs/addon-smart-knobs/pull/61)
+* [fix: support for nested structure](https://github.com/storybookjs/addon-smart-knobs/pull/62)
+
 # Smart knobs addon for Storybook
 
 This Storybook plugin uses `@storybook/addon-knobs` but creates the knobs automatically based on PropTypes, Flow and Typescript.
