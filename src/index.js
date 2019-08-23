@@ -1,4 +1,4 @@
-import { cloneElement } from 'react'
+import { cloneElement, Children } from 'react'
 import { action } from '@storybook/addon-actions'
 import { logger } from '@storybook/client-logger'
 import { text, boolean, number, object, select } from '@storybook/addon-knobs'
@@ -83,13 +83,8 @@ addKnobResolver({
 })
 
 const ensureType = (item) => item.flowType ? ({ ...item, type: item.flowType }) : item
-export const withSmartKnobs = (story, context) => {
-  const component = story(context)
 
-  let target = component.props.components && component.props.propTables && component.props.propTablesExclude
-    ? component.props.children
-    : component
-
+const getNewProps = (target, context) => {
   const { __docgenInfo: { props } = { props: {} } } = target.type
   const defaultProps = {
     ...(target.type.defaultProps || {}),
@@ -111,11 +106,33 @@ export const withSmartKnobs = (story, context) => {
     }
   }, {}) : {}
 
-  const newProps = resolvePropValues(finalProps, defaultProps)
+  return resolvePropValues(finalProps, defaultProps)
+}
 
-  if (component.props.components) {
-    return cloneElement(component, { ...component.props, children: cloneElement(component.props.children, newProps) })
+const mutateChildren = (component) => {
+  return cloneElement(component, { children: Children.map(component.props.children, (child) => {
+    if (child.type.__docgenInfo) {
+      const newProps = getNewProps(child)
+
+      return cloneElement(child, { ...child.props, ...newProps })
+    }
+
+    if (child.props.children) {
+      return mutateChildren(child)
+    }
+
+    return child
+  }) })
+}
+
+export const withSmartKnobs = (story, context) => {
+  const component = story(context)
+
+  if (!component.type.__docgenInfo && component.props.children) {
+    return mutateChildren(component)
   }
+
+  const newProps = getNewProps(component, context)
 
   return cloneElement(component, newProps)
 }
