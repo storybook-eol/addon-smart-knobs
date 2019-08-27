@@ -147,7 +147,7 @@ const resolvePropValues = (propTypes, defaultProps) => {
     .map(propName => resolvers.reduce(
       (value, resolver) => {
         const propType = propTypes[propName] || {}
-        const defaultValue = (propType.defaultValue && cleanupString(propType.defaultValue.value || '')) || undefined
+        const defaultValue = defaultProps[propName] || (propType.defaultValue && cleanupString(propType.defaultValue.value || '')) || undefined
 
         return value !== undefined ? value
           : resolver(propName, propType, defaultValue)
