@@ -26,11 +26,23 @@ Button.propTypes = {
 }
 
 storiesOf('Button')
-  .addDecorator(withSmartKnobs)
+  .addDecorator(withSmartKnobs(options))
   .addDecorator(withKnobs)
   .add('simple', () => <Button>Smart knobed button</Button>)
 
 ```
+
+## Options
+
+- **ignoreProps**
+  
+  Type: `Array`
+
+  If you want to ignore automatically props, you can list them. Example:
+  ```js
+    .withSmartKnobs({ ignoreProps: ['number'] })
+    .add('example' () => <div number={date('number', date)} />) 
+  ```
 
 ## Configuration:
 

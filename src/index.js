@@ -70,8 +70,9 @@ addKnobResolver({
 
 const ensureType = (item) => item.flowType ? ({ ...item, type: item.flowType }) : item
 
-const getNewProps = (target, context) => {
+const getNewProps = (target, context, opts) => {
   const { __docgenInfo: { props } = { props: {} } } = target.type
+  const { ignoreProps = [] } = opts
   const defaultProps = {
     ...(target.type.defaultProps || {}),
     ...target.props
@@ -79,6 +80,10 @@ const getNewProps = (target, context) => {
 
   const finalProps = props ? Object.keys(props).reduce((acc, n) => {
     const item = ensureType(props[n])
+
+    if (ignoreProps.includes(n)) {
+      return acc
+    }
 
     if (!item.type) {
       const defaultValue = item.defaultValue ? item.defaultValue.value : 'Unknown'
@@ -95,30 +100,30 @@ const getNewProps = (target, context) => {
   return resolvePropValues(finalProps, defaultProps)
 }
 
-const mutateChildren = (component) => {
+const mutateChildren = (component, context, opts) => {
   return cloneElement(component, { children: Children.map(component.props.children, (child) => {
     if (child.type.__docgenInfo) {
-      const newProps = getNewProps(child)
+      const newProps = getNewProps(child, context, opts)
 
       return cloneElement(child, { ...child.props, ...newProps })
     }
 
     if (child.props.children) {
-      return mutateChildren(child)
+      return mutateChildren(child, context, opts)
     }
 
     return child
   }) })
 }
 
-export const withSmartKnobs = (story, context) => {
+export const withSmartKnobs = (opts = {}) => (story, context) => {
   const component = story(context)
 
   if (!component.type.__docgenInfo && component.props.children) {
-    return mutateChildren(component)
+    return mutateChildren(component, context, opts)
   }
 
-  const newProps = getNewProps(component, context)
+  const newProps = getNewProps(component, context, opts)
 
   return cloneElement(component, newProps)
 }
