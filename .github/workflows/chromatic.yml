@@ -10,7 +10,7 @@ jobs:
     - run: |
         yarn
     - run: |
-        yarn build
+        yarn compile
     - run: |
         yarn build-storybook
     - uses: chromaui/action@v1
