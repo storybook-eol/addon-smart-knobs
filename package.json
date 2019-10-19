@@ -10,6 +10,7 @@
     "clean": "rimraf ./dist",
     "compile": "babel ./src --out-dir ./dist",
     "prepublish": "npm run clean && npm run compile",
+    "build-storybook": "build-storybook",
     "storybook": "start-storybook -p 9010",
     "build-storybook": "build-storybook -c .storybook",
     "now-build": "npm run build-storybook",
@@ -30,8 +31,8 @@
     "@storybook/client-logger": "^5.0.0",
     "@storybook/react": "^5.0.0",
     "babel-loader": "^8.0.4",
-    "css-loader": "^3.1.0",
     "core-js": "^3.0.1",
+    "css-loader": "^3.1.0",
     "eslint-config-taller": "^2.0.0",
     "eslint-plugin-flowtype": "^3.5.1",
     "jest": "^24.7.1",
@@ -46,5 +47,8 @@
     "@storybook/react": "^5.0.0",
     "babel-plugin-react-docgen": "^2.0.0",
     "react": ">=15.0.0 || ^16.0.0"
+  },
+  "dependencies": {
+    "storybook-chromatic": "^3.0.3"
   }
 }
