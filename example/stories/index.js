@@ -17,7 +17,7 @@ storiesOf('Basic', module)
   .add('flow', () => <SmartKnobedComponentWithFlow />)
   .add('nested example', () => (
     <div>
-      <span />
+      <h1>Title</h1>
       <SmartKnobedComponent />
     </div>
   ))
