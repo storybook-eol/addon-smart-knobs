@@ -98,13 +98,13 @@ const getNewProps = (target, context) => {
 
 const mutateChildren = (component) => {
   return cloneElement(component, { children: Children.map(component.props.children, (child) => {
-    if (child.type.__docgenInfo) {
+    if (child.type && child.type.__docgenInfo) {
       const newProps = getNewProps(child)
 
       return cloneElement(child, { ...child.props, ...newProps })
     }
 
-    if (child.props.children) {
+    if (child.props && child.props.children) {
       return mutateChildren(child)
     }
 
