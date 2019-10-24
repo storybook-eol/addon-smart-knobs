@@ -42,7 +42,7 @@ typeKnobsMap.forEach(({ name, knob, args = [] }, weight) => addKnobResolver({
 }))
 
 const optionsReducer = (res, value) => ({ ...res, [value]: value })
-const withDefaultOption = (options) => ({ '--': null, ...options })
+const withDefaultOption = (options) => ({ '--': undefined, ...options })
 const createSelect = (propName, elements, defaultProps, isRequired) => {
   try {
     const options = elements
