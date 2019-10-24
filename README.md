@@ -38,10 +38,10 @@ storiesOf('Button')
   
   Type: `Array`
 
-  If you want to ignore automatically props, you can list them. Example:
+  Will not automatically create knobs for props whose name is in this array. Example:
   ```js
-    .withSmartKnobs({ ignoreProps: ['number'] })
-    .add('example' () => <div number={date('number', date)} />) 
+    .withSmartKnobs({ ignoreProps: ['numberProp'] })
+    .add('example', () => <div numberProp={date('date', date)} />) 
   ```
 
 ## Configuration:
