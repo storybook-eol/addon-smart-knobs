@@ -1,14 +1,24 @@
 # Smart knobs addon for Storybook
 
-This Storybook plugin uses `@storybook/addon-knobs` but creates the knobs automatically based on PropTypes, Flow and Typescript.
+This Storybook plugin uses [`@storybook/addon-knobs`](https://github.com/storybookjs/storybook/tree/next/addons/knobs) but creates the knobs automatically based on PropTypes, Flow and Typescript.
 
 ## Installation:
 
-```
+Via npm:
+
+```sh
 npm i @storybook/addon-knobs storybook-addon-smart-knobs --save-dev
 ```
 
+or with Yarn:
+
+```sh
+yarn add @storybook/addon-knobs storybook-addon-smart-knobs --dev
+```
+
 ## Usage:
+
+Follow the `@storybook/addon-knobs` [Getting started steps](https://github.com/storybookjs/storybook/tree/master/addons/knobs), and then:
 
 ### Component Story Format (CSF)
 
@@ -31,7 +41,7 @@ Button.propTypes = {
 export default {
   title: 'Button',
   component: Button,
-  decorators: [[withKnobs, withSmartKnobs(options)]]
+  decorators: [withKnobs, withSmartKnobs(options)]
 };
 
 export const simple = () => <Button>Smart knobed button</Button>)
