@@ -49,3 +49,13 @@ storiesOf('Ignore Props', module)
   .addDecorator(withSmartKnobs({ ignoreProps: ['number'] }))
   .addDecorator(withKnobs)
   .add('proptypes', () => <SmartKnobedComponent number={ date('date', new Date()) } />)
+
+storiesOf('Multiple components', module)
+  .addDecorator(withSmartKnobs())
+  .addDecorator(withKnobs)
+  .add('example', () => (
+    <>
+      <SmartKnobedComponent />
+      <SmartKnobedComponent />
+    </>
+  ))
