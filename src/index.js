@@ -15,10 +15,19 @@ export const addKnobResolver = ({ name, resolver, weight = 0 }) => (knobResolver
  * --------------------------------
  */
 
+export const propTypeKnobParams = (knob, propName, value, groupId, ...args) => {
+  switch (propName) {
+    case 'number':
+      return knob(propName, value, {}, groupId, ...args)
+    default:
+      return knob(propName, value, groupId, ...args)
+  }
+}
+
 export const propTypeKnobResolver = (name, regexp, knob, ...args) =>
-  (propName, propType, value) =>
+  (propName, propType, value, groupId) =>
     (propType.type.name === name || (regexp && regexp.test(propType.type.name)))
-      ? knob(propName, value, ...args)
+      ? propTypeKnobParams(knob, propName, value, groupId, ...args)
       : undefined
 
 const flowTypeKnobsMap = [
@@ -49,14 +58,14 @@ typeKnobsMap.forEach(({ name, regexp, knob, args = [] }, weight) => addKnobResol
 
 const optionsReducer = (res, value) => ({ ...res, [value]: value })
 const withDefaultOption = (options) => ({ '--': undefined, ...options })
-const createSelect = (propName, elements, defaultValue, isRequired) => {
+const createSelect = (propName, elements, defaultValue, isRequired, groupId) => {
   try {
     const options = elements
     // Cleanup string quotes, if any.
       .map(value => cleanupValue(value.value))
       .reduce(optionsReducer, {})
     const value = defaultValue || (isRequired && Object.values(options)[0]) || undefined
-    return select(propName, isRequired ? options : withDefaultOption(options), value)
+    return select(propName, isRequired ? options : withDefaultOption(options), value, groupId)
   }
   catch (e) { }
 }
@@ -64,20 +73,20 @@ const createSelect = (propName, elements, defaultValue, isRequired) => {
 // Register 'oneOf' PropType knob resolver.
 addKnobResolver({
   name: 'PropTypes.oneOf',
-  resolver: (propName, propType, defaultValue) => {
+  resolver: (propName, propType, defaultValue, groupId) => {
     if (propType.type.name === 'enum' && propType.type.value.length) {
-      return createSelect(propName, propType.type.value, defaultValue, propType.required)
+      return createSelect(propName, propType.type.value, defaultValue, propType.required, groupId)
     }
     // for flow support
     if (propType.type.name === 'union' && propType.type.elements) {
-      return createSelect(propName, propType.type.elements, defaultValue, propType.required)
+      return createSelect(propName, propType.type.elements, defaultValue, propType.required, groupId)
     }
   }
 })
 
 const ensureType = (item) => item.flowType ? ({ ...item, type: item.flowType }) : item
 
-const getNewProps = (target, context, opts) => {
+const getNewProps = (target, context, opts, id) => {
   const { __docgenInfo: { props } = { props: {} } } = target.type
   const { ignoreProps = [] } = opts
   const defaultProps = {
@@ -104,19 +113,21 @@ const getNewProps = (target, context, opts) => {
     }
   }, {}) : {}
 
-  return resolvePropValues(finalProps, defaultProps)
+  return resolvePropValues(finalProps, defaultProps, id)
 }
 
-const mutateChildren = (component, context, opts) => {
-  return cloneElement(component, { children: Children.map(component.props.children, (child) => {
+const mutateChildren = (component, context, opts, index = 0) => {
+  const shouldGroup = Children.count(component.props.children) > 1
+
+  return cloneElement(component, { children: Children.map(component.props.children, (child, i) => {
     if (child.type && child.type.__docgenInfo) {
-      const newProps = getNewProps(child, context, opts)
+      const newProps = getNewProps(child, context, opts, shouldGroup ? index + '-' + i : null)
 
       return cloneElement(child, { ...child.props, ...newProps })
     }
 
     if (child.props && child.props.children) {
-      return mutateChildren(child, context, opts)
+      return mutateChildren(child, context, opts, index + 1)
     }
 
     return child
@@ -135,7 +146,7 @@ export const withSmartKnobs = (opts = {}) => (story, context) => {
   return cloneElement(component, newProps)
 }
 
-const resolvePropValues = (propTypes, defaultProps) => {
+const resolvePropValues = (propTypes, defaultProps, groupId) => {
   const propNames = Object.keys(propTypes)
   const resolvers = Object.keys(knobResolvers)
     .sort((a, b) => knobResolvers[a].weight < knobResolvers[b].weight)
@@ -148,7 +159,7 @@ const resolvePropValues = (propTypes, defaultProps) => {
         const defaultValue = defaultProps[propName] || (propType.defaultValue && cleanupValue(propType.defaultValue.value || '')) || undefined
 
         return value !== undefined ? value
-          : resolver(propName, propType, defaultValue)
+          : resolver(propName, propType, defaultValue, groupId)
       },
       undefined
     ))
