@@ -75,6 +75,20 @@ addKnobResolver({
   }
 })
 
+// Register 'boolean' PropType knob resolver
+addKnobResolver({
+  name: 'PropTypes.bool',
+  resolver: (propName, propType, defaultValue) => {
+    let boolValue = defaultValue
+    if (propType.type.name === 'bool') {
+      // If the value is a string convert it to a real boolean
+      if (typeof (boolValue) === 'string') boolValue = (defaultValue === 'true')
+      return boolean(propName, boolValue)
+    }
+  },
+  weight: 100
+})
+
 const ensureType = (item) => item.flowType ? ({ ...item, type: item.flowType }) : item
 
 const getNewProps = (target, context, opts) => {
