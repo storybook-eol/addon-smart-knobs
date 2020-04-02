@@ -3,3 +3,4 @@ dist
 settings.json
 storybook-static/
 package-lock.json
+.idea
