@@ -135,6 +135,20 @@ export const withSmartKnobs = (opts = {}) => (story, context) => {
   return cloneElement(component, newProps)
 }
 
+const getDefaultValue = (defaultProp, propType) => {
+  // If the defaultProp is not undefined, return it. This avoids relying on the
+  // truthiness of the value, which doesn't work for falsy values.
+  if (typeof defaultProp !== 'undefined') {
+    return defaultProp
+  }
+
+  if (propType.defaultValue) {
+    return cleanupValue(propType.defaultValue.value)
+  }
+
+  return undefined
+}
+
 const resolvePropValues = (propTypes, defaultProps) => {
   const propNames = Object.keys(propTypes)
   const resolvers = Object.keys(knobResolvers)
@@ -145,7 +159,7 @@ const resolvePropValues = (propTypes, defaultProps) => {
     .map(propName => resolvers.reduce(
       (value, resolver) => {
         const propType = propTypes[propName] || {}
-        const defaultValue = defaultProps[propName] || (propType.defaultValue && cleanupValue(propType.defaultValue.value || '')) || undefined
+        const defaultValue = getDefaultValue(defaultProps[propName], propType)
 
         return value !== undefined ? value
           : resolver(propName, propType, defaultValue)
