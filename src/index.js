@@ -2,6 +2,7 @@ import { cloneElement, Children } from 'react'
 import { action } from '@storybook/addon-actions'
 import { logger } from '@storybook/client-logger'
 import { text, boolean, number, object, select } from '@storybook/addon-knobs'
+import { makeDecorator } from '@storybook/addons'
 
 const QUOTED_STRING_REGEXP = /^['"](.*)['"]$/
 
@@ -123,17 +124,22 @@ const mutateChildren = (component, context, opts) => {
   }) })
 }
 
-export const withSmartKnobs = (opts = {}) => (story, context) => {
-  const component = story(context)
+export const withSmartKnobs = (opts = {}) => makeDecorator({
+  name: 'withSmartKnobs',
+  parameterName: 'smartKnobs',
+  skipIfNoParametersOrOptions: false,
+  wrapper: (story, context) => {
+    const component = story(context)
 
-  if (!component.type.__docgenInfo && component.props.children) {
-    return mutateChildren(component, context, opts)
-  }
+    if (!component.type.__docgenInfo && component.props.children) {
+      return mutateChildren(component, context, opts)
+    }
 
-  const newProps = getNewProps(component, context, opts)
+    const newProps = getNewProps(component, context, opts)
 
-  return cloneElement(component, newProps)
-}
+    return cloneElement(component, newProps)
+  },
+})
 
 const getDefaultValue = (defaultProp, propType) => {
   // If the defaultProp is not undefined, return it. This avoids relying on the

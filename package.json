@@ -26,6 +26,7 @@
     "@storybook/addon-info": "^5.0.0",
     "@storybook/addon-knobs": "^5.0.0",
     "@storybook/addon-options": "^5.0.0",
+    "@storybook/addons": "^5.3.19",
     "@storybook/client-logger": "^5.0.0",
     "@storybook/react": "^5.0.0",
     "@types/react": "^16.9.1",
