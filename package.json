@@ -47,6 +47,7 @@
   "peerDependencies": {
     "@storybook/addon-knobs": "^5.0.0",
     "@storybook/addon-options": "^5.0.0",
+    "@storybook/addons": "^5.0.0",
     "@storybook/react": "^5.0.0",
     "babel-plugin-react-docgen": "^2.0.0",
     "react": ">=15.0.0 || ^16.0.0"
