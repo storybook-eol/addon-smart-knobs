@@ -54,5 +54,8 @@
   },
   "dependencies": {
     "storybook-chromatic": "^3.0.3"
-  }
+  },
+  "keywords": [
+    "storybook-addon"
+  ]
 }
