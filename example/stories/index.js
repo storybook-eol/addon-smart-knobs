@@ -6,6 +6,7 @@ import { withInfo } from '@storybook/addon-info'
 
 import SmartKnobedComponent from './SmartKnobedComponent'
 import SmartKnobedComponentMissingProps from './SmartKnobedComponentMissingProps'
+import SmartKnobedComponentWithDefaultProps from './SmartKnobedComponentWithDefaultProps'
 import SmartKnobedComponentWithFlow from './SmartKnobedComponentWithFlow'
 import { SmartKnobedComponentWithTypescript } from './SmartKnobedComponentWithTypescript'
 
@@ -29,6 +30,13 @@ storiesOf('withInfo', module)
   .addDecorator(withKnobs)
   .addDecorator(withInfo)
   .add('proptypes', () => <SmartKnobedComponent />)
+
+storiesOf('Default props', module)
+  .addDecorator(withSmartKnobs())
+  .addDecorator(withKnobs)
+  .add('example', () => (
+    <SmartKnobedComponentWithDefaultProps />
+  ))
 
 storiesOf('Missing props', module)
   .addDecorator(withSmartKnobs())

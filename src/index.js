@@ -2,6 +2,7 @@ import { cloneElement, Children } from 'react'
 import { action } from '@storybook/addon-actions'
 import { logger } from '@storybook/client-logger'
 import { text, boolean, number, object, select } from '@storybook/addon-knobs'
+import { makeDecorator } from '@storybook/addons'
 
 const QUOTED_STRING_REGEXP = /^['"](.*)['"]$/
 
@@ -123,16 +124,35 @@ const mutateChildren = (component, context, opts) => {
   }) })
 }
 
-export const withSmartKnobs = (opts = {}) => (story, context) => {
-  const component = story(context)
+export const withSmartKnobs = (opts = {}) => makeDecorator({
+  name: 'withSmartKnobs',
+  parameterName: 'smartKnobs',
+  skipIfNoParametersOrOptions: false,
+  wrapper: (story, context) => {
+    const component = story(context)
 
-  if (!component.type.__docgenInfo && component.props.children) {
-    return mutateChildren(component, context, opts)
+    if (!component.type.__docgenInfo && component.props.children) {
+      return mutateChildren(component, context, opts)
+    }
+
+    const newProps = getNewProps(component, context, opts)
+
+    return cloneElement(component, newProps)
+  },
+})
+
+const getDefaultValue = (defaultProp, propType) => {
+  // If the defaultProp is not undefined, return it. This avoids relying on the
+  // truthiness of the value, which doesn't work for falsy values.
+  if (typeof defaultProp !== 'undefined') {
+    return defaultProp
   }
 
-  const newProps = getNewProps(component, context, opts)
+  if (propType.defaultValue) {
+    return cleanupValue(propType.defaultValue.value)
+  }
 
-  return cloneElement(component, newProps)
+  return undefined
 }
 
 const resolvePropValues = (propTypes, defaultProps) => {
@@ -145,7 +165,7 @@ const resolvePropValues = (propTypes, defaultProps) => {
     .map(propName => resolvers.reduce(
       (value, resolver) => {
         const propType = propTypes[propName] || {}
-        const defaultValue = defaultProps[propName] || (propType.defaultValue && cleanupValue(propType.defaultValue.value || '')) || undefined
+        const defaultValue = getDefaultValue(defaultProps[propName], propType)
 
         return value !== undefined ? value
           : resolver(propName, propType, defaultValue)
