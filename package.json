@@ -15,19 +15,20 @@
     "test": "jest"
   },
   "devDependencies": {
-    "@babel/cli": "^7.4.3",
-    "@babel/core": "^7.4.3",
-    "@babel/plugin-proposal-class-properties": "^7.4.0",
-    "@babel/plugin-proposal-export-default-from": "^7.2.0",
-    "@babel/preset-env": "^7.4.3",
-    "@babel/preset-flow": "^7.0.0",
-    "@babel/preset-react": "^7.0.0",
-    "@storybook/addon-actions": "^5.0.0",
-    "@storybook/addon-info": "^5.0.0",
-    "@storybook/addon-knobs": "^5.0.0",
-    "@storybook/addon-options": "^5.0.0",
-    "@storybook/client-logger": "^5.0.0",
-    "@storybook/react": "^5.0.0",
+    "@babel/cli": "^7.9.0",
+    "@babel/core": "^7.9.0",
+    "@babel/plugin-proposal-class-properties": "^7.9.0",
+    "@babel/plugin-proposal-export-default-from": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
+    "@babel/preset-flow": "^7.9.0",
+    "@babel/preset-react": "7.9.0",
+    "@storybook/addon-actions": "^5.3.19",
+    "@storybook/addon-info": "^5.3.19",
+    "@storybook/addon-knobs": "^5.3.19",
+    "@storybook/addon-options": "^5.3.19",
+    "@storybook/addons": "^5.3.19",
+    "@storybook/client-logger": "^5.3.19",
+    "@storybook/react": "^5.3.19",
     "@types/react": "^16.9.1",
     "babel-loader": "^8.0.4",
     "core-js": "^3.0.1",
@@ -46,11 +47,15 @@
   "peerDependencies": {
     "@storybook/addon-knobs": "^5.0.0",
     "@storybook/addon-options": "^5.0.0",
+    "@storybook/addons": "^5.0.0",
     "@storybook/react": "^5.0.0",
     "babel-plugin-react-docgen": "^2.0.0",
     "react": ">=15.0.0 || ^16.0.0"
   },
   "dependencies": {
     "storybook-chromatic": "^3.0.3"
-  }
+  },
+  "keywords": [
+    "storybook-addon"
+  ]
 }
