@@ -1,14 +1,67 @@
 # Smart knobs addon for Storybook
 
-This Storybook plugin uses `@storybook/addon-knobs` but creates the knobs automatically based on PropTypes, Flow and Typescript.
+This Storybook plugin uses [`@storybook/addon-knobs`](https://github.com/storybookjs/storybook/tree/next/addons/knobs) but creates the knobs automatically based on PropTypes, Flow and Typescript.
 
 ## Installation:
 
+Via npm:
+
+```sh
+npm i @storybook/addon-knobs storybook-addon-smart-knobs --save-dev
 ```
-npm i storybook-addon-smart-knobs --save-dev
+
+or with Yarn:
+
+```sh
+yarn add @storybook/addon-knobs storybook-addon-smart-knobs --dev
 ```
 
 ## Usage:
+
+Follow the `@storybook/addon-knobs` [Getting started steps](https://github.com/storybookjs/storybook/tree/master/addons/knobs), and then:
+
+### Component Story Format (CSF)
+
+```js
+import React from 'react'
+import PropTypes from 'prop-types'
+import { storiesOf } from '@storybook/react'
+import { withKnobs } from '@storybook/addon-knobs'
+import { withSmartKnobs } from 'storybook-addon-smart-knobs'
+
+const Button = ({ children, onClick }) => (
+  <button onClick={ onClick }>{ children }</button>
+)
+
+Button.propTypes = {
+  children: PropTypes.node,
+  onClick: PropTypes.func
+}
+
+export default {
+  title: 'Button',
+  component: Button,
+  decorators: [withKnobs, withSmartKnobs(options)]
+};
+
+export const simple = () => <Button>Smart knobed button</Button>)
+```
+
+To apply the smart knobs to a specific story:
+
+```js
+export default {
+  title: 'Button',
+  component: Button,
+};
+
+export const simple = () => <Button>Smart knobed button</Button>)
+simple.story = {
+  decorators: [[withKnobs, withSmartKnobs(options)]]
+}
+```
+
+### `storiesOf` API
 
 ```js
 import React from 'react'
@@ -30,7 +83,15 @@ storiesOf('Button')
   .addDecorator(withSmartKnobs(options))
   .addDecorator(withKnobs)
   .add('simple', () => <Button>Smart knobed button</Button>)
+```
 
+To apply the smart knobs to a specific story:
+
+```js
+storiesOf('Button')
+  .add('simple', () => <Button>Smart knobed button</Button>, {
+    decorators: [[withKnobs, withSmartKnobs(options)]]
+  })
 ```
 
 ## Options
@@ -41,7 +102,7 @@ storiesOf('Button')
 
   Will not automatically create knobs for props whose name is in this array. Example:
   ```js
-    .withSmartKnobs({ ignoreProps: ['numberProp'] })
+    .addDecorator(withSmartKnobs({ ignoreProps: ['numberProp'] }))
     .add('example', () => <div numberProp={date('date', date)} />) 
   ```
 
